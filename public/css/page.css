@@ -72,6 +72,10 @@ a:hover {
   align-items: center;
 }
 
+.pl-item.active {
+  background-color: #f0f0f0;
+}
+
 .pl-icon {
   fill: #888;
 }

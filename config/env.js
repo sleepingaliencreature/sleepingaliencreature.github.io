@@ -3,6 +3,7 @@
 const fs = require('fs');
 const path = require('path');
 const paths = require('./paths');
+const getMP3Duration = require('get-mp3-duration');
 
 // Make sure that including paths.js after env.js will read .env variables.
 delete require.cache[require.resolve('./paths')];
@@ -77,6 +78,9 @@ function getClientEnvironment(publicUrl) {
         // This should only be used as an escape hatch. Normally you would put
         // images into the `src` and `import` them in code to get their paths.
         PUBLIC_URL: publicUrl,
+        AUDIO_FILES: fs.readdirSync("public/music"),
+        AUDIO_DURATION: fs.readdirSync("public/music")
+            .map(file => getMP3Duration(fs.readFileSync("public/music/" + file))),
       }
     );
   // Stringify all values so we can feed into Webpack DefinePlugin
