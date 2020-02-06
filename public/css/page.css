@@ -78,12 +78,15 @@ a:hover {
 
 .pl-icon {
   fill: #888;
+  width: 1.25rem;
+  height: 1.25rem;
 }
 
 .song-name {
   display: inline-block;
   width: 100%;
   padding: 0 .75rem 0 .75rem;
+  cursor: pointer;
 }
 
 .lenght {

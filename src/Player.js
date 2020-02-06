@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import classNames from 'classnames';
 
 const PlayerItem = (props) => {
@@ -7,11 +7,30 @@ const PlayerItem = (props) => {
     return (
         <li className={classNames({"pl-item": true, "active": props.active})}>
             <img className="pl-icon" src="icons/speaker.svg" onClick={props.setAudio}/>
-            <a className="song-name" href="?song=1">{props.name.slice(0, props.name.length - 4)}</a>
+            <span className="song-name" onClick={props.setAudio}>{props.name.slice(0, props.name.length - 4)}</span>
             <span className="lenght">{parseInt(seconds / 60)}:{parseInt(seconds % 60)}</span>
-            <a href="#"><img className="pl-icon" src="icons/download.svg"/></a>
+            <a href={`music/${props.name}`} download><img className="pl-icon" src="icons/download.svg"/></a>
         </li>
     )
+};
+
+const AudioPlayer = ({audio}) => {
+    const audioEl = useRef(null);
+
+    useEffect(() => {
+            if(!audioEl.current.paused) {
+                audioEl.current.pause();
+                audioEl.current.load();
+                audioEl.current.play();
+            }
+    }, [audio]);
+
+    return (
+        <audio ref={audioEl} className="playback" controls="controls">
+            <source id="file" src={`music/${audio}`}/>
+            Your browser does not support the player. You still able to download tracks.
+        </audio>
+    );
 };
 
 const Player = (props) => {
@@ -23,10 +42,7 @@ const Player = (props) => {
                 <div id="chart-container" style={{width: "100%", height: "100%"}}></div>
             </div>
 
-            <audio className="playback" controls="controls">
-                <source id="file" src={`music/${audio}`}/>
-                Your browser does not support the player. You still able to download tracks.
-            </audio>
+            <AudioPlayer audio={audio}/>
 
             <div className="playlist">
                 <ul>
