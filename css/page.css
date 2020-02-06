@@ -1,32 +1,42 @@
-body {
+html, body {
+  height: 100%;
   font-family: 'Lato', sans-serif;
-  font-size: 0.8rem;
-  height: 100vh;
 }
-
-.container {
+body {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  flex: 1 0 auto;
-  padding: 3rem 0 1rem 0;
-  min-width: 1000px;
-  width: 100%;
+  min-width: 800px;
   max-width: 1980px;
-  min-height: auto;
-  position: relative;
+}
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1 0 auto;
+}
+.footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  padding: 2rem;
 }
 
 .menu {
   display: flex;
   flex-direction: row;
-  flex-wrap: nowrap;
-  justify-content: center;
+  padding: 3rem 0 2rem;
 }
 
 .menu li {
   display: flex;
-  padding: 0 2rem;
+  padding: 0 1rem;
+}
+
+.logo {
+  font-family: 'Old Standard TT', serif;
+  font-size: 1.75rem;
+  color: #212121;
 }
 
 a {
@@ -39,67 +49,35 @@ a:hover {
   color: #000;
 }
 
-.logo {
-  font-family: 'Old Standard TT', serif;
-  font-size: 1.75rem;
-  color: #212121;
-  display: flex;
-  height: 6rem;
-  align-items: center;
-  width: 100%;
-  justify-content: center;
-}
-
-.player {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-}
-
-.playback {
-  width: 50rem;
+.visualizer {
+  width: 27rem;
+  height: 27rem;
 }
 
 .playlist {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  height: 100px;
+  padding: 3rem 0;
 }
 
 .playlist ul {
   display: flex;
-  width: 30rem;
+  width: 27rem;
   flex-direction: column;
 }
 
-.playlist ul li {
+.pl-item {
   display: flex;
   width: 100%;
   height: 2rem;
   border-bottom: solid .05rem #e0e0e0;
-  justify-content: space-between;
   align-items: center;
 }
 
-.container2 {
+.song-name {
+  display: inline-block;
   width: 100%;
-  display: flex;
-  justify-content: center;
-  height: 20rem;
-  margin-bottom: 10rem;
+  padding: 0 .75rem 0 .75rem;
 }
 
 .lenght {
   color: #888;
-}
-
-.footer {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	color: #888;
-	font-size: 0.75rem;
-	width: 100%;
-	height: 0.9rem;
 }
