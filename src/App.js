@@ -1,26 +1,35 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import Player from "./Player";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <div>
+
+            <div className="content">
+                <div className="top-menu">
+                    <ul className="menu">
+                        <li><a href="">Music</a></li>
+                        <li><a href="">About</a></li>
+                        <li><a href="">Sign-up for updates</a></li>
+                        <li><a href="">Donate</a></li>
+                        <li><a href="">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div className="logo">
+                    sleepingaliencreature
+                </div>
+
+                <Player/>
+            </div>
+
+            <footer className="footer">
+                <a href="#">Created by sleepingaliencreature 2020</a>
+            </footer>
+
+        </div>
+    );
 }
 
 export default App;
