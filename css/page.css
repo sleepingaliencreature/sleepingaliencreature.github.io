@@ -83,5 +83,12 @@ a:hover {
 
 .container2 {
   width: 100%;
+  display: flex;
+  justify-content: center;
   height: 20rem;
+  margin-bottom: 10rem;
+}
+
+.lenght {
+  color: #888;
 }
