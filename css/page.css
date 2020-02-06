@@ -94,10 +94,10 @@ a:hover {
 }
 
 .footer {
-  display: flex;
-  justify-content: center;
-  color: #888;
-  font-size: 0.5rem;
+	display: flex;
+	justify-content: center;
+	color: #888;
+	font-size: 0.5rem;
 	position: absolute;
 	left: 0;
 	bottom: 0;
