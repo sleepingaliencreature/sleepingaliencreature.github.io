@@ -3,7 +3,7 @@ name: Node.js CI
 on:
   push:
     branches:
-    - master
+    - source
 
 jobs:
   build:
@@ -26,7 +26,7 @@ jobs:
     - name: GitHub Pages
       uses: crazy-max/ghaction-github-pages@v1.2.5
       with:
-        target_branch: gh-pages
+        target_branch: master
         build_dir: build
       env:
         GITHUB_PAT: ${{ secrets.GITHUB_PAT }}
