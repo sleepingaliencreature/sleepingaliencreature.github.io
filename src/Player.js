@@ -34,7 +34,10 @@ const AudioPlayer = ({audio}) => {
 };
 
 const Player = (props) => {
-    const [audio, setAudio] = useState(process.env.AUDIO_FILES[0]);
+    const AUDIO_FILES = process.env.AUDIO_FILES || [];
+    const AUDIO_DURATION = process.env.AUDIO_DURATION || [];
+
+    const [audio, setAudio] = useState(AUDIO_FILES.length > 0 ? AUDIO_FILES[0] : undefined);
 
     return (
         <>
@@ -46,10 +49,10 @@ const Player = (props) => {
 
             <div className="playlist">
                 <ul>
-                    {process.env.AUDIO_FILES.map((name, i) => <PlayerItem key={i}
+                    {AUDIO_FILES.map((name, i) => <PlayerItem key={i}
                                                                           active={name === audio}
                                                                           name={name}
-                                                                          duration={process.env.AUDIO_DURATION[i]}
+                                                                          duration={AUDIO_DURATION[i]}
                                                                           setAudio={e => setAudio(name)}/>)}
                 </ul>
             </div>
