@@ -1,5 +1,8 @@
 import React, {useEffect, useRef, useState} from 'react';
 import classNames from 'classnames';
+import AudioPlayer from 'react-h5-audio-player';
+
+import './player.css';
 
 const PlayerItem = (props) => {
     const seconds = props.duration / 1000;
@@ -14,25 +17,6 @@ const PlayerItem = (props) => {
     )
 };
 
-const AudioPlayer = ({audio}) => {
-    const audioEl = useRef(null);
-
-    useEffect(() => {
-            if(!audioEl.current.paused) {
-                audioEl.current.pause();
-                audioEl.current.load();
-                audioEl.current.play();
-            }
-    }, [audio]);
-
-    return (
-        <audio ref={audioEl} className="playback" controls="controls">
-            <source id="file" src={`music/${audio}`}/>
-            Your browser does not support the player. You still able to download tracks.
-        </audio>
-    );
-};
-
 const Player = (props) => {
     const AUDIO_FILES = process.env.AUDIO_FILES || [];
     const AUDIO_DURATION = process.env.AUDIO_DURATION || [];
@@ -45,7 +29,7 @@ const Player = (props) => {
                 <div id="chart-container" style={{width: "100%", height: "100%"}}></div>
             </div>
 
-            <AudioPlayer audio={audio}/>
+            <AudioPlayer src={`music/${audio}`}/>
 
             <div className="playlist">
                 <ul>
