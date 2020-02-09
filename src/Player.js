@@ -10,7 +10,8 @@ const PlayerItem = (props) => {
 
     return (
         <li className={classNames({"pl-item": true, "active": props.active})}>
-            <img className="pl-icon" src="icons/speaker.svg" onClick={props.selectAudio}/>
+            <img className="pl-icon speaker" src="icons/speaker.svg"/>
+            <img className="pl-icon play" src="icons/play.svg" onClick={props.selectAudio}/>
             <span className="song-name" onClick={props.selectAudio}>{props.name.slice(0, props.name.length - 4)}</span>
             <span className="lenght">{parseInt(seconds / 60)}:{parseInt(seconds % 60)}</span>
             <a href={`music/${props.name}`} download><img className="pl-icon" src="icons/download.svg"/></a>

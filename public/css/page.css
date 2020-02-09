@@ -77,10 +77,26 @@ a:hover {
   background-color: #f0f0f0;
 }
 
-.pl-icon {
+.pl-item .pl-icon {
   fill: #888;
   width: 1.25rem;
   height: 1.25rem;
+}
+
+.pl-item .pl-icon.speaker {
+  display: none;
+}
+
+.pl-item.active .pl-icon.speaker {
+  display: block;
+}
+
+.pl-item .pl-icon.play {
+  cursor: pointer;
+}
+
+.pl-item.active .pl-icon.play {
+  display: none;
 }
 
 .song-name {
