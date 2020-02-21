@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import AudioPlayer from 'react-h5-audio-player';
 import {isUndefined} from 'lodash';
 import CircularAudioWave from './circular-audio-wave';
+import echarts from 'echarts';
 
 import './player.css';
 
@@ -18,6 +19,143 @@ const PlayerItem = (props) => {
             <a href={`music/${props.name}`} download><img className="pl-icon" src="icons/download.svg"/></a>
         </li>
     )
+};
+
+let maxChartValue = 240;
+let minChartValue = 100;
+
+const defaultChartOption = {
+    angleAxis: {
+        type: 'value',
+        clockwise: false,
+        axisLine: {
+            show: false,
+        },
+        axisTick: {
+            show: false,
+        },
+        axisLabel: {
+            show: false,
+        },
+        splitLine: {
+            show: false,
+        },
+    },
+    radiusAxis: {
+        min: 0,
+        max: maxChartValue + 50,
+        axisLine: {
+            show: false,
+        },
+        axisTick: {
+            show: false,
+        },
+        axisLabel: {
+            show: false,
+        },
+        splitLine: {
+            show: false,
+        },
+    },
+    polar: {
+        radius: '100%',
+    },
+    series: [{
+        coordinateSystem: 'polar',
+        name: 'line',
+        type: 'line',
+        showSymbol: false,
+        lineStyle: {
+            color: {
+                colorStops: [{
+                    offset: 0.7,
+                    color: '#e91e63'
+                },
+                    {
+                        offset: 0.3,
+                        color: '#3f51b5'
+                    }
+                ],
+            },
+            shadowColor: 'blue',
+            shadowBlur: 10,
+        },
+        zlevel: 2,
+        data: Array.apply(null, {
+            length: 361
+        }).map(Function.call, i => {
+            return [minChartValue, i];
+        }),
+        silent: true,
+        hoverAnimation: false,
+    },
+        {
+            coordinateSystem: 'polar',
+            name: 'maxbar',
+            type: 'line',
+            showSymbol: false,
+            lineStyle: {
+                color: '#87b9ca',
+                shadowColor: '#87b9ca',
+                shadowBlur: 10,
+            },
+            data: Array.apply(null, {
+                length: 361
+            }).map(Function.call, i => {
+                return [minChartValue, i];
+            }),
+            silent: true,
+            hoverAnimation: false,
+        },
+        {
+            coordinateSystem: 'polar',
+            name: 'interior',
+            type: 'effectScatter',
+            showSymbol: false,
+            data: [0],
+            symbolSize: 100,
+            rippleEffect: {
+                period: 3.5,
+                scale: 3,
+            },
+            itemStyle: {
+                color: {
+                    type: 'radial',
+                    colorStops: [{
+                        offset: 0,
+                        color: '#87b9ca'
+                    }, {
+                        offset: 1,
+                        color: 'white'
+                    }],
+                },
+            },
+            silent: true,
+            hoverAnimation: false,
+            animation: false,
+        },
+    ]
+};
+
+function _generateWaveData(data, chartOption) {
+    console.log(data)
+    let waveData = [];
+    let maxR = 0;
+
+    for (let i = 0; i <= 360; i++) {
+        // (((OldValue - OldMin) * (NewMax - NewMin)) / (OldMax - OldMin)) + NewMin
+        let freq = data[i];
+        var r = (((freq - 0) * (maxChartValue - minChartValue)) / (255 - 0)) + minChartValue;
+        if (r > maxR) {
+            maxR = r;
+        }
+        waveData.push([r, i]);
+    }
+    waveData.push([waveData[0][0], 360]);
+    return {
+        maxR: maxR,
+        data: waveData
+    };
 };
 
 const Player = (props) => {
@@ -36,66 +174,92 @@ const Player = (props) => {
         setAudioIndex(!isUndefined(audioIndex) && audioIndex > 0 ? audioIndex - 1 : audioIndex),
         [audioIndex]);
 
-    // const onPlay = useCallback(() => {
-    //     const audio = audioEl.current.audio;
-    //     var canvas = canvasEl.current;
-    //
-    //     var context = new AudioContext();
-    //     var src = context.createMediaElementSource(audio);
-    //     var analyser = context.createAnalyser();
-    //
-    //     canvas.width = window.innerWidth;
-    //     canvas.height = window.innerHeight;
-    //     var ctx = canvas.getContext("2d");
-    //
-    //     src.connect(analyser);
-    //     analyser.connect(context.destination);
-    //
-    //     analyser.fftSize = 256;
-    //
-    //     var bufferLength = analyser.frequencyBinCount;
-    //     console.log(bufferLength);
-    //
-    //     var dataArray = new Uint8Array(bufferLength);
-    //
-    //     var WIDTH = canvas.width;
-    //     var HEIGHT = canvas.height;
-    //
-    //     var barWidth = (WIDTH / bufferLength) * 2.5;
-    //     var barHeight;
-    //     var x = 0;
-    //
-    //     function renderFrame() {
-    //         requestAnimationFrame(renderFrame);
-    //
-    //         x = 0;
-    //
-    //         analyser.getByteFrequencyData(dataArray);
-    //
-    //         ctx.fillStyle = "#000";
-    //         ctx.fillRect(0, 0, WIDTH, HEIGHT);
-    //
-    //         for (var i = 0; i < bufferLength; i++) {
-    //             barHeight = dataArray[i];
-    //
-    //             var r = barHeight + (25 * (i / bufferLength));
-    //             var g = 250 * (i / bufferLength);
-    //             var b = 50;
-    //
-    //             ctx.fillStyle = "rgb(" + r + "," + g + "," + b + ")";
-    //             ctx.fillRect(x, HEIGHT - barHeight, barWidth, barHeight);
-    //
-    //             x += barWidth + 1;
-    //         }
-    //     }
-    //
-    //     renderFrame();
-    // }, [audioIndex])
-
     const onPlay = useCallback(() => {
-        const wave = new CircularAudioWave(canvasEl.current);
-        wave.loadAudio(`music/${audio}`).then(() => wave.play());
-    }, [audioIndex]);
+        const playing = true;
+
+        const audio = audioEl.current.audio;
+        var canvas = canvasEl.current;
+
+        const chart = echarts.init(canvas);
+        const chartOption = JSON.parse(JSON.stringify(defaultChartOption));
+        let lastMaxR = 0;
+
+        var context = new AudioContext();
+        var src = context.createMediaElementSource(audio);
+        var analyser = context.createAnalyser();
+
+        let lowpass = context.createBiquadFilter();
+        lowpass.type = "lowpass";
+        // lowpass.settar
+        lowpass.frequency.setValueAtTime(200, 0);
+        lowpass.Q.setValueAtTime(1, 0);
+
+        src.connect(lowpass);
+
+        let highpass = context.createBiquadFilter();
+        highpass.type = "highpass";
+        highpass.frequency.setValueAtTime(150, 0);
+        highpass.Q.setValueAtTime(1, 0);
+        lowpass.connect(highpass);
+        highpass.connect(context.destination);
+
+        // chartOption.series[0].animation = false;
+        // chartOption.series[2].rippleEffect.period = 150 / 120;
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        var ctx = canvas.getContext("2d");
+
+        src.connect(analyser);
+        analyser.connect(context.destination);
+
+        analyser.smoothingTimeConstant = 0.3;
+        analyser.fftSize = 2048;
+
+        var bufferLength = analyser.frequencyBinCount;
+        console.log(bufferLength);
+
+        var dataArray = new Uint8Array(bufferLength);
+
+        var WIDTH = canvas.width;
+        var HEIGHT = canvas.height;
+
+        var barWidth = (WIDTH / bufferLength) * 2.5;
+        var barHeight;
+        var x = 0;
+
+        function renderFrame() {
+            const freqData = new Uint8Array(bufferLength);
+            analyser.getByteFrequencyData(freqData);
+            let waveData = _generateWaveData(freqData, chartOption);
+            chartOption.series[0].data = waveData.data;
+
+            if (waveData.maxR > lastMaxR) {
+                lastMaxR = waveData.maxR + 4;
+            } else if (playing) {
+                lastMaxR -= 2;
+            } else {
+                lastMaxR = minChartValue;
+            }
+
+            // maxbar
+            chartOption.series[1].data = Array.apply(null, {
+                length: 361
+            }).map(Function.call, (i) => {
+                return [lastMaxR, i];
+            });
+            chart.setOption(chartOption, true);
+
+            requestAnimationFrame(renderFrame);
+        }
+
+        renderFrame();
+    }, [audioIndex])
+
+    // const onPlay = useCallback(() => {
+    //     const wave = new CircularAudioWave(canvasEl.current);
+    //     wave.loadAudio(`music/${audio}`).then(() => wave.play());
+    // }, [audioIndex]);
 
     const audio = isUndefined(audioIndex) ? undefined : AUDIO_FILES[audioIndex];
 
