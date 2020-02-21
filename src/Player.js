@@ -44,7 +44,8 @@ const Player = (props) => {
                          showSkipControls={true}
                          showJumpControls={false}
                          onClickPrevious={prev}
-                         onClickNext={next}/>
+                         onClickNext={next}
+                         onEnded={next}/>
 
             <div className="playlist">
                 <ul>
