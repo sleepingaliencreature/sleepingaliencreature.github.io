@@ -2,6 +2,7 @@ import React, {useCallback, useEffect, useRef, useState} from 'react';
 import classNames from 'classnames';
 import AudioPlayer from 'react-h5-audio-player';
 import {isUndefined} from 'lodash';
+import CircularAudioWave from './circular-audio-wave';
 
 import './player.css';
 
@@ -25,6 +26,9 @@ const Player = (props) => {
 
     const [audioIndex, setAudioIndex] = useState(AUDIO_FILES.length > 0 ? 0 : undefined);
 
+    const audioEl = useRef(null);
+    const canvasEl = useRef(null);
+
     const next = useCallback(() =>
         setAudioIndex(!isUndefined(audioIndex) && audioIndex < AUDIO_FILES.length - 1 ? audioIndex + 1 :
             audioIndex), [audioIndex, AUDIO_FILES]);
@@ -32,20 +36,85 @@ const Player = (props) => {
         setAudioIndex(!isUndefined(audioIndex) && audioIndex > 0 ? audioIndex - 1 : audioIndex),
         [audioIndex]);
 
+    // const onPlay = useCallback(() => {
+    //     const audio = audioEl.current.audio;
+    //     var canvas = canvasEl.current;
+    //
+    //     var context = new AudioContext();
+    //     var src = context.createMediaElementSource(audio);
+    //     var analyser = context.createAnalyser();
+    //
+    //     canvas.width = window.innerWidth;
+    //     canvas.height = window.innerHeight;
+    //     var ctx = canvas.getContext("2d");
+    //
+    //     src.connect(analyser);
+    //     analyser.connect(context.destination);
+    //
+    //     analyser.fftSize = 256;
+    //
+    //     var bufferLength = analyser.frequencyBinCount;
+    //     console.log(bufferLength);
+    //
+    //     var dataArray = new Uint8Array(bufferLength);
+    //
+    //     var WIDTH = canvas.width;
+    //     var HEIGHT = canvas.height;
+    //
+    //     var barWidth = (WIDTH / bufferLength) * 2.5;
+    //     var barHeight;
+    //     var x = 0;
+    //
+    //     function renderFrame() {
+    //         requestAnimationFrame(renderFrame);
+    //
+    //         x = 0;
+    //
+    //         analyser.getByteFrequencyData(dataArray);
+    //
+    //         ctx.fillStyle = "#000";
+    //         ctx.fillRect(0, 0, WIDTH, HEIGHT);
+    //
+    //         for (var i = 0; i < bufferLength; i++) {
+    //             barHeight = dataArray[i];
+    //
+    //             var r = barHeight + (25 * (i / bufferLength));
+    //             var g = 250 * (i / bufferLength);
+    //             var b = 50;
+    //
+    //             ctx.fillStyle = "rgb(" + r + "," + g + "," + b + ")";
+    //             ctx.fillRect(x, HEIGHT - barHeight, barWidth, barHeight);
+    //
+    //             x += barWidth + 1;
+    //         }
+    //     }
+    //
+    //     renderFrame();
+    // }, [audioIndex])
+
+    const onPlay = useCallback(() => {
+        const wave = new CircularAudioWave(canvasEl.current);
+        wave.loadAudio(`music/${audio}`).then(() => wave.play());
+    }, [audioIndex]);
+
     const audio = isUndefined(audioIndex) ? undefined : AUDIO_FILES[audioIndex];
 
     return (
         <>
             <div className="visualizer">
-                <div id="chart-container" style={{width: "100%", height: "100%"}}></div>
+                <div id="chart-container" style={{width: "100%", height: "100%"}}>
+                    <canvas ref={canvasEl}></canvas>
+                </div>
             </div>
 
             <AudioPlayer src={`music/${audio}`}
+                         ref={audioEl}
                          showSkipControls={true}
                          showJumpControls={false}
                          onClickPrevious={prev}
                          onClickNext={next}
-                         onEnded={next}/>
+                         onEnded={next}
+                         onPlay={onPlay}/>
 
             <div className="playlist">
                 <ul>
