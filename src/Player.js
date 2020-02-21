@@ -42,6 +42,7 @@ const Player = (props) => {
 
             <AudioPlayer src={`music/${audio}`}
                          showSkipControls={true}
+                         showJumpControls={false}
                          onClickPrevious={prev}
                          onClickNext={next}/>
 
