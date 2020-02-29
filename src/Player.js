@@ -203,20 +203,20 @@ const Player = (props) => {
         var src = context.createMediaElementSource(audio);
         var analyser = context.createAnalyser();
 
-        let lowpass = context.createBiquadFilter();
-        lowpass.type = "lowpass";
-        // lowpass.settar
-        lowpass.frequency.setValueAtTime(200, 0);
-        lowpass.Q.setValueAtTime(1, 0);
-
-        src.connect(lowpass);
-
-        let highpass = context.createBiquadFilter();
-        highpass.type = "highpass";
-        highpass.frequency.setValueAtTime(150, 0);
-        highpass.Q.setValueAtTime(1, 0);
-        lowpass.connect(highpass);
-        highpass.connect(context.destination);
+        // let lowpass = context.createBiquadFilter();
+        // lowpass.type = "lowpass";
+        // // lowpass.settar
+        // lowpass.frequency.setValueAtTime(200, 0);
+        // lowpass.Q.setValueAtTime(1, 0);
+        //
+        // src.connect(lowpass);
+        //
+        // let highpass = context.createBiquadFilter();
+        // highpass.type = "highpass";
+        // highpass.frequency.setValueAtTime(150, 0);
+        // highpass.Q.setValueAtTime(1, 0);
+        // lowpass.connect(highpass);
+        // highpass.connect(context.destination);
 
         // chartOption.series[0].animation = false;
         // chartOption.series[2].rippleEffect.period = 150 / 120;
