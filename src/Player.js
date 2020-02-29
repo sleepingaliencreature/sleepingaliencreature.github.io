@@ -141,9 +141,9 @@ function _generateWaveData(data, chartOption) {
     let dd = [];
     let maxR = 0;
 
-    for (let i = 0; i <= 180; i++) {
+    for (let i = 0; i < 180; i += 2) {
         // (((OldValue - OldMin) * (NewMax - NewMin)) / (OldMax - OldMin)) + NewMin
-        // let freq = (data[i*2+10] + data[i*2+1+10])/2.0;
+        // let freq = (data[i*2 + 10] + data[i*2 + 1 + 10]) / 2.0;
         const freq = data[i + 10];
         var r = (((freq - 0) * (maxChartValue - minChartValue)) / (255 - 0)) + minChartValue;
         if (r > maxR) {
@@ -152,13 +152,21 @@ function _generateWaveData(data, chartOption) {
         // waveData.push([r, i]);
         dd.push(r)
     }
-    for (let i = 0; i <= 180; i++) {
-        waveData.push([dd[i], i]);
-    }
-    for (let i = 181; i <= 360; i++) {
-        waveData.push([dd[360 - i], i]);
-    }
-    // waveData.push([waveData[0][0], 360]);
+
+    const mirrorHorizontal = dd.concat(dd.slice().reverse());
+    const mirrorVertical = mirrorHorizontal.slice().reverse();
+
+    dd = mirrorHorizontal.concat(mirrorVertical);
+
+    waveData = dd.map((v, i) => [v, i]);
+
+    // for (let i = 0; i <= 180; i++) {
+    //     waveData.push([dd[i], i]);
+    // }
+    // for (let i = 181; i <= 360; i++) {
+    //     waveData.push([dd[360 - i], i]);
+    // }
+    waveData.push([waveData[0][0], 360]);
     return {
         maxR: maxR,
         data: waveData
