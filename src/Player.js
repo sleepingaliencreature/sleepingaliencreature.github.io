@@ -137,20 +137,28 @@ const defaultChartOption = {
 };
 
 function _generateWaveData(data, chartOption) {
-    console.log(data)
     let waveData = [];
+    let dd = [];
     let maxR = 0;
 
-    for (let i = 0; i <= 360; i++) {
+    for (let i = 0; i <= 180; i++) {
         // (((OldValue - OldMin) * (NewMax - NewMin)) / (OldMax - OldMin)) + NewMin
-        let freq = data[i];
+        // let freq = (data[i*2+10] + data[i*2+1+10])/2.0;
+        const freq = data[i + 10];
         var r = (((freq - 0) * (maxChartValue - minChartValue)) / (255 - 0)) + minChartValue;
         if (r > maxR) {
             maxR = r;
         }
-        waveData.push([r, i]);
+        // waveData.push([r, i]);
+        dd.push(r)
     }
-    waveData.push([waveData[0][0], 360]);
+    for (let i = 0; i <= 180; i++) {
+        waveData.push([dd[i], i]);
+    }
+    for (let i = 181; i <= 360; i++) {
+        waveData.push([dd[360 - i], i]);
+    }
+    // waveData.push([waveData[0][0], 360]);
     return {
         maxR: maxR,
         data: waveData
@@ -208,7 +216,7 @@ const Player = (props) => {
         src.connect(analyser);
         analyser.connect(context.destination);
 
-        analyser.smoothingTimeConstant = 0.3;
+        analyser.smoothingTimeConstant = 0.9;
         analyser.fftSize = 2048;
 
         var bufferLength = analyser.frequencyBinCount;
