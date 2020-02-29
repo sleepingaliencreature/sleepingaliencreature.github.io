@@ -2,7 +2,6 @@ import React, {useCallback, useEffect, useRef, useState} from 'react';
 import classNames from 'classnames';
 import AudioPlayer from 'react-h5-audio-player';
 import {isUndefined} from 'lodash';
-import CircularAudioWave from './circular-audio-wave';
 import echarts from 'echarts';
 
 import './player.css';
@@ -178,7 +177,7 @@ const Player = (props) => {
         const playing = true;
 
         const audio = audioEl.current.audio;
-        var canvas = canvasEl.current;
+        const canvas = canvasEl.current;
 
         const chart = echarts.init(canvas);
         const chartOption = JSON.parse(JSON.stringify(defaultChartOption));
@@ -205,10 +204,6 @@ const Player = (props) => {
 
         // chartOption.series[0].animation = false;
         // chartOption.series[2].rippleEffect.period = 150 / 120;
-
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        var ctx = canvas.getContext("2d");
 
         src.connect(analyser);
         analyser.connect(context.destination);
@@ -266,8 +261,7 @@ const Player = (props) => {
     return (
         <>
             <div className="visualizer">
-                <div id="chart-container" style={{width: "100%", height: "100%"}}>
-                    <canvas ref={canvasEl}></canvas>
+                <div id="chart-container" style={{width: "100%", height: "100%"}} ref={canvasEl}>
                 </div>
             </div>
 
