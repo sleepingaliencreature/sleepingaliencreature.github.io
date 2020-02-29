@@ -153,10 +153,10 @@ function _generateWaveData(data, chartOption) {
         dd.push(r)
     }
 
-    const mirrorHorizontal = dd.concat(dd.slice().reverse());
-    const mirrorVertical = mirrorHorizontal.slice().reverse();
+    const a = dd;
+    const b = a.slice().reverse();
 
-    dd = mirrorHorizontal.concat(mirrorVertical);
+    dd = b.concat(a).concat(b).concat(a);
 
     waveData = dd.map((v, i) => [v, i]);
 
