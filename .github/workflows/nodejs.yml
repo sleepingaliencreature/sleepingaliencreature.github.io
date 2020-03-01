@@ -22,6 +22,7 @@ jobs:
       env:
         CI: true
     - run: npm run build
+    - run: cp CNAME build/
 
     - name: GitHub Pages
       uses: crazy-max/ghaction-github-pages@v1.2.5
