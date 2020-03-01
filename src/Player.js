@@ -189,19 +189,19 @@ const Player = (props) => {
         setAudioIndex(!isUndefined(audioIndex) && audioIndex > 0 ? audioIndex - 1 : audioIndex),
         [audioIndex]);
 
-    const onPlay = useCallback(() => {
-        const playing = true;
+    const analyserRef = useRef();
+    const chartRef = useRef();
+
+    const getAnalyser = () => {
+        if (analyserRef.current) {
+            return analyserRef.current;
+        }
 
         const audio = audioEl.current.audio;
-        const canvas = canvasEl.current;
 
-        const chart = echarts.init(canvas);
-        const chartOption = JSON.parse(JSON.stringify(defaultChartOption));
-        let lastMaxR = 0;
-
-        var context = new AudioContext();
-        var src = context.createMediaElementSource(audio);
-        var analyser = context.createAnalyser();
+        const context = new AudioContext();
+        const src = context.createMediaElementSource(audio);
+        const analyser = context.createAnalyser();
 
         // let lowpass = context.createBiquadFilter();
         // lowpass.type = "lowpass";
@@ -227,17 +227,34 @@ const Player = (props) => {
         analyser.smoothingTimeConstant = 0.9;
         analyser.fftSize = 2048;
 
+        analyserRef.current = analyser;
+
+        return analyser;
+    };
+
+    const getChart = () => {
+        if (chartRef.current) {
+            return chartRef.current;
+        }
+
+        const canvas = canvasEl.current;
+        const chart = echarts.init(canvas);
+
+        chartRef.current = chart;
+
+        return chart;
+    };
+
+    const onPlay = useCallback(() => {
+        const playing = true;
+
+        const chart = getChart();
+        const chartOption = JSON.parse(JSON.stringify(defaultChartOption));
+        let lastMaxR = 0;
+
+        const analyser = getAnalyser();
+
         var bufferLength = analyser.frequencyBinCount;
-        console.log(bufferLength);
-
-        var dataArray = new Uint8Array(bufferLength);
-
-        var WIDTH = canvas.width;
-        var HEIGHT = canvas.height;
-
-        var barWidth = (WIDTH / bufferLength) * 2.5;
-        var barHeight;
-        var x = 0;
 
         function renderFrame() {
             const freqData = new Uint8Array(bufferLength);
@@ -265,12 +282,7 @@ const Player = (props) => {
         }
 
         renderFrame();
-    }, [audioIndex])
-
-    // const onPlay = useCallback(() => {
-    //     const wave = new CircularAudioWave(canvasEl.current);
-    //     wave.loadAudio(`music/${audio}`).then(() => wave.play());
-    // }, [audioIndex]);
+    }, [audioIndex]);
 
     const audio = isUndefined(audioIndex) ? undefined : AUDIO_FILES[audioIndex];
 
