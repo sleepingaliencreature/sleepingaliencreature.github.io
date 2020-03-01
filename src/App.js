@@ -9,11 +9,11 @@ function App() {
             <div className="content">
                 <div className="top-menu">
                     <ul className="menu">
-                        <li><a href="index.html">Music</a></li>
-                        <li><a href="">About</a></li>
-                        <li><a href="signup.html">Sign-up for updates</a></li>
-                        <li><a href="">Donate</a></li>
-                        <li><a href="feedback.html">Feedback</a></li>
+                      <li><a href="index.html">Music</a></li>
+                      <li><a href="about.html">About</a></li>
+                      <li><a href="signup.html">Sign-Up for updates</a></li>
+                      <li><a href="donate.html">Donate</a></li>
+                      <li><a href="feedback.html">Feedback</a></li>
                     </ul>
                 </div>
 

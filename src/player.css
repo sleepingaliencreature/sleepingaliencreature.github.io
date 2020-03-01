@@ -2,14 +2,14 @@
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  line-height: 1;
+  line-height: 2;
   font-family: inherit;
   height: 90px;
-  width: 100%;
+  width: 75%;
   min-width: 300px;
   padding: 10px 15px;
   background-color: #fff;
-  box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.2);
+  /* box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.2); */
 }
 .rhap_container:focus:not(:focus-visible) {
   outline: 0;
@@ -107,7 +107,7 @@
 }
 
 .rhap_main-controls-button {
-  margin: 0 3px;
+  margin: 0 1rem;
   color: #868686;
   font-size: 35px;
   width: 35px;

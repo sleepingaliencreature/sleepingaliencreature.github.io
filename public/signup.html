@@ -8,43 +8,42 @@
     <link href="https://fonts.googleapis.com/css?family=Lato|Old+Standard+TT&display=swap" rel="stylesheet">
   </head>
   <body>
+    <div id="root">
+      <div>
+        <div class="content">
+          <div class="top-menu">
+            <ul class="menu">
+              <li> <a href="index.html">Music</a> </li>
+              <li> <a href="about.html">About</a> </li>
+              <li> <a href="signup.html">Sign-Up for updates</a> </li>
+              <li> <a href="donate.html">Donate</a> </li>
+              <li> <a href="feedback.html">Feedback</a> </li>
+            </ul>
+          </div>
 
-    <div class="content">
-      <div class="top-menu">
-        <ul class="menu">
-          <li><a href="index.html">Music</a></li>
-          <li><a href="">About</a></li>
-          <li><a href="signup.html">Sign-up for updates</a></li>
-          <li><a href="">Donate</a></li>
-          <li><a href="feedback.html">Feedback</a></li>
-        </ul>
+          <div class="logo">sleepingaliencreature</div>
+
+          <form class="feedback"
+            action="https://formspree.io/xknrzzjb"
+            method="POST"
+          >
+          <h2>Please submit your email address to sign up for updates.</h2>
+          <label>
+            <div class="fb-label">Your email:</div>
+            <input class="fb-email" type="email" name="_replyto">
+          </label>
+          <label style="display:none">
+            <div class="fb-label">Your message:</div>
+            <textarea class="fb-message" name="message" style="display:none">This person wants to sign up for new music!</textarea>
+          </label>
+          <button class="fb-submit" type="submit">Sign Up</button>
+        </form>
+
+        </div>
+        <footer class="footer">
+          <a href="feedback.html">Created by sleepingaliencreature 2020</a>
+        </footer>
       </div>
-
-      <div class="logo">
-        sleepingaliencreature
-      </div>
-
-        <form class="feedback"
-          action="https://formspree.io/xknrzzjb"
-          method="POST"
-        >
-        <h2>Please submit your email address to sign up for updates.</h2>
-        <label>
-          <div class="fb-label">Your email:</div>
-          <input class="fb-email" type="email" name="_replyto">
-        </label>
-        <label style="display:none">
-          <div class="fb-label">Your message:</div>
-          <textarea class="fb-message" name="message" style="display:none">This person wants to sign up for new music!</textarea>
-        </label>
-        <button class="fb-submit" type="submit">Sign Up</button>
-      </form>
-
     </div>
-
-    <footer class="footer">
-      <a href="#">Created by sleepingaliencreature 2020</a>
-    </footer>
-
   </body>
 </html>
