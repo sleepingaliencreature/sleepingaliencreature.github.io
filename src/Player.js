@@ -248,40 +248,41 @@ const Player = (props) => {
     const onPlay = useCallback(() => {
         const playing = true;
 
-        const chart = getChart();
-        const chartOption = JSON.parse(JSON.stringify(defaultChartOption));
-        let lastMaxR = 0;
+        if (!isUndefined(window.AudioContext)) {
+            const chart = getChart();
+            const chartOption = JSON.parse(JSON.stringify(defaultChartOption));
+            let lastMaxR = 0;
 
-        const analyser = getAnalyser();
+            const analyser = getAnalyser();
 
-        var bufferLength = analyser.frequencyBinCount;
+            function renderFrame() {
+                const bufferLength = analyser.frequencyBinCount;
+                const freqData = new Uint8Array(bufferLength);
+                analyser.getByteFrequencyData(freqData);
+                let waveData = _generateWaveData(freqData, chartOption);
+                chartOption.series[0].data = waveData.data;
 
-        function renderFrame() {
-            const freqData = new Uint8Array(bufferLength);
-            analyser.getByteFrequencyData(freqData);
-            let waveData = _generateWaveData(freqData, chartOption);
-            chartOption.series[0].data = waveData.data;
+                if (waveData.maxR > lastMaxR) {
+                    lastMaxR = waveData.maxR + 4;
+                } else if (playing) {
+                    lastMaxR -= 2;
+                } else {
+                    lastMaxR = minChartValue;
+                }
 
-            if (waveData.maxR > lastMaxR) {
-                lastMaxR = waveData.maxR + 4;
-            } else if (playing) {
-                lastMaxR -= 2;
-            } else {
-                lastMaxR = minChartValue;
+                // maxbar
+                chartOption.series[1].data = Array.apply(null, {
+                    length: 361
+                }).map(Function.call, (i) => {
+                    return [lastMaxR, i];
+                });
+                chart.setOption(chartOption, true);
+
+                requestAnimationFrame(renderFrame);
             }
 
-            // maxbar
-            chartOption.series[1].data = Array.apply(null, {
-                length: 361
-            }).map(Function.call, (i) => {
-                return [lastMaxR, i];
-            });
-            chart.setOption(chartOption, true);
-
-            requestAnimationFrame(renderFrame);
+            renderFrame();
         }
-
-        renderFrame();
     }, [audioIndex]);
 
     const audio = isUndefined(audioIndex) ? undefined : AUDIO_FILES[audioIndex];
@@ -289,8 +290,9 @@ const Player = (props) => {
     return (
         <>
             <div className="visualizer">
-                <div id="chart-container" style={{width: "100%", height: "100%"}} ref={canvasEl}>
-                </div>
+                {isUndefined(window.AudioContext) && <div><img src="wave.gif" /></div>}
+                {!isUndefined(window.AudioContext) && <div id="chart-container" style={{width: "100%", height: "100%"}}
+                                                           ref={canvasEl}></div>}
             </div>
 
             <AudioPlayer src={`music/${audio}`}
