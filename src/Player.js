@@ -16,6 +16,7 @@ const PlayerItem = (props) => {
     const copyLink = useCallback((e, name) => {
         copy(`${process.env.PUBLIC_URL}/#${name}`);
         e.preventDefault();
+        alert("Link to track was copied to clipboard");
     }, []);
 
     return (
@@ -215,7 +216,7 @@ const Player = (props) => {
             const i = AUDIO_FILES.indexOf(location.pathname.slice(1) + ".mp3");
             if (i >= 0) {
                 setTimeout(() => {
-                    audio.play();
+                    audio.play().catch(e => console.log("Can't autostart playing"));
                     setAudioIndex(i);
                 }, 500);
             }
