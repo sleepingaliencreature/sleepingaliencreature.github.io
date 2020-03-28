@@ -199,3 +199,15 @@
 .rhap_button-clear:focus:not(:focus-visible) {
   outline: 0;
 }
+
+/* On screens that are 1000px or less */
+@media screen and (max-width: 1000px) {
+  .rhap_container {
+    width: 100%;
+  }
+  .rhap_play-pause-button, .rhap_play-pause-button svg, .rhap_main-controls-button, .rhap_main-controls-button svg {
+    width: 4rem;
+    height: 4rem;
+  }
+
+}

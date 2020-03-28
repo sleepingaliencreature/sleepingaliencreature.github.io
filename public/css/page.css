@@ -57,6 +57,7 @@ body {
   font-family: 'Old Standard TT', serif;
   font-size: 2.25em;
   color: #212121;
+  padding-top: 3rem;
 }
 
 a {
@@ -199,14 +200,22 @@ a:hover {
 /* On screens that are 1000px or less */
 @media screen and (max-width: 1000px) {
   body {
-    font-size: 1.45em;
+    font-size: 2em;
   }
   .pl-item {
-    height: 3rem;
+    height: 5rem;
+    font-size: 2.5rem;
   }
   .pl-item .pl-icon {
-    width: 2.25rem;
-    height: 2.25rem;
+    width: 3.5rem;
+    height: 3.5rem;
+  }
+  .feedback, .feedback label {
+    padding-top: 3rem;
+    width: 100%;
+  }
+  .fb-email, .fb-message, .fb-submit {
+    width: 100%;
   }
 
 }
