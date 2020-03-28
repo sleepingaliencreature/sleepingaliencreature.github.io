@@ -204,6 +204,7 @@
 @media screen and (max-width: 1000px) {
   .rhap_container {
     width: 100%;
+    padding-bottom: 10rem;
   }
   .rhap_play-pause-button, .rhap_play-pause-button svg, .rhap_main-controls-button, .rhap_main-controls-button svg {
     width: 6rem;
