@@ -1,10 +1,14 @@
 import React from 'react';
-import './App.css';
+import {HashRouter} from "react-router-dom";
+
 import Player from "./Player";
+
+import './App.css';
+
 
 function App() {
     return (
-        <div>
+        <HashRouter hashType="noslash">
 
             <div className="content">
                 <div className="top-menu">
@@ -28,7 +32,7 @@ function App() {
                 <a href="#">Created by sleepingaliencreature 2020</a>
             </footer>
 
-        </div>
+        </HashRouter>
     );
 }
 

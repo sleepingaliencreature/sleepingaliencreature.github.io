@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import AudioPlayer from 'react-h5-audio-player';
 import {isUndefined} from 'lodash';
 import echarts from 'echarts';
+import {useRouteMatch, useHistory, useLocation} from "react-router-dom";
 
 import './player.css';
 
@@ -191,6 +192,24 @@ const Player = (props) => {
 
     const analyserRef = useRef();
     const chartRef = useRef();
+
+    const history = useHistory();
+    const location = useLocation();
+
+    useEffect(() => {
+        const audio = audioEl.current.audio;
+
+        if (location.pathname != "/") {
+            history.replace("/");
+            const i = AUDIO_FILES.indexOf(location.pathname.slice(1) + ".mp3");
+            if (i >= 0) {
+                setTimeout(() => {
+                    audio.play();
+                    setAudioIndex(i);
+                }, 500);
+            }
+        }
+    }, [location.pathname]);
 
     const getAnalyser = () => {
         if (analyserRef.current) {
