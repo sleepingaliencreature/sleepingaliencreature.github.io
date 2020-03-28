@@ -206,8 +206,8 @@
     width: 100%;
   }
   .rhap_play-pause-button, .rhap_play-pause-button svg, .rhap_main-controls-button, .rhap_main-controls-button svg {
-    width: 4rem;
-    height: 4rem;
+    width: 6rem;
+    height: 6rem;
   }
 
 }
