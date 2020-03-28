@@ -3,20 +3,31 @@ import classNames from 'classnames';
 import AudioPlayer from 'react-h5-audio-player';
 import {isUndefined} from 'lodash';
 import echarts from 'echarts';
-import {useRouteMatch, useHistory, useLocation} from "react-router-dom";
+import {useHistory, useLocation} from "react-router-dom";
+import copy from 'copy-to-clipboard';
 
 import './player.css';
 
+
 const PlayerItem = (props) => {
     const seconds = props.duration / 1000;
+    const name = props.path.slice(0, props.path.length - 4);
+
+    const copyLink = useCallback((e, name) => {
+        copy(`${process.env.PUBLIC_URL}/#${name}`);
+        e.preventDefault();
+    }, []);
 
     return (
         <li className={classNames({"pl-item": true, "active": props.active})}>
             <img className="pl-icon speaker" src="icons/speaker.svg"/>
             <img className="pl-icon play" src="icons/play.svg" onClick={props.selectAudio}/>
-            <span className="song-name" onClick={props.selectAudio}>{props.name.slice(0, props.name.length - 4)}</span>
+            <span className="song-name" onClick={props.selectAudio}>{name}</span>
             <span className="lenght">{parseInt(seconds / 60)}:{parseInt(seconds % 60)}</span>
-            <a href={`music/${props.name}`} download><img className="pl-icon" src="icons/download.svg"/></a>
+            <a href={`#${name}`} onClick={e => copyLink(e, name)}>
+                <img className="pl-icon" src="icons/link.svg"/>
+            </a>
+            <a href={`music/${props.path}`} download><img className="pl-icon" src="icons/download.svg"/></a>
         </li>
     )
 };
@@ -325,9 +336,9 @@ const Player = (props) => {
 
             <div className="playlist">
                 <ul>
-                    {AUDIO_FILES.map((name, i) => <PlayerItem key={i}
+                    {AUDIO_FILES.map((path, i) => <PlayerItem key={i}
                                                                           active={i === audioIndex}
-                                                                          name={name}
+                                                                          path={path}
                                                                           duration={AUDIO_DURATION[i]}
                                                                           selectAudio={e => setAudioIndex(i)}/>)}
                 </ul>
