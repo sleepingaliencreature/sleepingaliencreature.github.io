@@ -44,13 +44,23 @@ body {
 .menu {
   display: flex;
   flex-direction: row;
-  padding: 3rem 0 2rem;
+  padding: 2rem 0 2rem 0;
   justify-content: space-around;
 }
 
 .menu li {
   display: flex;
-  padding: 0 1rem;
+  padding: .85rem;
+}
+
+.soundcloud-link {
+  background-color: #f50;
+  border-radius: 3px;
+}
+
+.soundcloud-link a {
+  color: #fff;
+  font-weight: bold;
 }
 
 .logo {
@@ -81,7 +91,7 @@ a:hover {
 
 .playlist {
   padding: 4.5rem 0;
-  width: 100%;
+  width: 60%;
   display: flex;
   justify-content: center;
 }
@@ -208,7 +218,10 @@ a:hover {
 /* On screens that are 1000px or less */
 @media screen and (max-width: 1000px) {
   body {
-    font-size: 2em;
+    font-size: 1.7em;
+  }
+  .playlist {
+    width: 100%;
   }
   .pl-item {
     height: 5rem;

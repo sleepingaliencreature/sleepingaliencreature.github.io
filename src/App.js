@@ -15,10 +15,10 @@ function App() {
                     <div className="top-menu">
                         <ul className="menu">
                           <li><a href="index.html">Music</a></li>
-                          <li><a href="about.html">About</a></li>
                           <li><a href="signup.html">Sign-Up for updates</a></li>
                           <li><a href="donate.html">Donate</a></li>
                           <li><a href="feedback.html">Feedback</a></li>
+                          <li class="soundcloud-link"> <a href="https://soundcloud.com/sleepingaliencreature">SoundCloud</a> </li>
                         </ul>
                     </div>
 
@@ -30,7 +30,7 @@ function App() {
                 </div>
 
                 <footer className="footer">
-                    <a href="#">Created by sleepingaliencreature 2020</a>
+                  <a href="feedback.html">Created by sleepingaliencreature 2020</a>
                 </footer>
 
             </HashRouter>
