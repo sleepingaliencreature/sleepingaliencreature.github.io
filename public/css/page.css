@@ -225,14 +225,21 @@ a:hover {
 
 .donate {
   display: flex;
-  width: 100%;
-  padding-bottom: 10rem;
+  width: 80%;
+  padding: 3rem 0 25rem 0;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
 
-#error-message {
+.donate p {
+  display: block;
+  line-height: 2rem;
+  text-align: center;
+  padding-bottom: 1rem;
+}
+
+/* #error-message {
   display: flex;
   width: 70%;
   padding: 1.5rem;
@@ -241,9 +248,9 @@ a:hover {
   color: #9c27b0;
   margin: 1rem 0;
   font-size: 1.5rem;
-}
+} */
 
-.donate-button {
+/* .donate-button {
   display: flex;
   width: 20rem;
   height: 3rem;
@@ -255,20 +262,13 @@ a:hover {
   border: none;
   border-radius: 3px;
   margin: .75rem;
-}
+} */
 
 .span-bold {
   font-weight: bold;
 }
 
-.notice {
-  display: flex;
-  width: 100%;
-  padding: 3rem 0;
-  justify-content: center;
-}
-
-.notice a {
+.donate p a {
   text-decoration: underline;
   font-weight: bold;
 }
