@@ -6,15 +6,19 @@
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/page.css">
     <link href="https://fonts.googleapis.com/css?family=Lato|Old+Standard+TT&display=swap" rel="stylesheet">
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-      <script async src="https://www.googletagmanager.com/gtag/js?id=UA-162111587-1"></script>
-      <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
 
-        gtag('config', 'UA-162111587-1');
-      </script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-162111587-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-162111587-1');
+    </script>
+
+    <!-- Load Stripe.js on your website. -->
+    <script src="https://js.stripe.com/v3"></script>
 
   </head>
   <body>
@@ -34,51 +38,57 @@
           <div class="logo">sleepingaliencreature</div>
 
           <div class="donate">
-
-            <!-- Load Stripe.js on your website. -->
-            <script src="https://js.stripe.com/v3"></script>
-
-            <!-- Create a button that your customers click to complete their purchase. Customize the styling to suit your branding. -->
-            <button
-              style="background-color:#6772E5;color:#FFF;padding:8px 12px;border:0;border-radius:4px;font-size:1em"
-              id="checkout-button-sku_H00YCOetObXVYA"
-              role="link"
-            >
-              Checkout
-            </button>
-
             <div id="error-message"></div>
 
+            <!-- Create a button that your customers click to complete their purchase. Customize the styling to suit your branding. -->
+            <h1>One-time Donation</h1>
+            <button class="donate-button" data-sku-id="sku_H00YCOetObXVYA">Donate <span class="span-bold">&nbsp;$1.00&nbsp;</span> once</button>
+            <button class="donate-button" data-sku-id="sku_H00zVgnyqA3uvH">Donate <span class="span-bold">&nbsp;$5.00&nbsp;</span> once</button>
+            <button class="donate-button" data-sku-id="sku_H010UQshoWWzDo">Donate <span class="span-bold">&nbsp;$10.00&nbsp;</span> once</button>
+
+            <h1>Recurring Donation</h1>
+            <button class="donate-button" data-plan-id="plan_H01eqtcx3P617D">Donate <span class="span-bold">&nbsp;$1.00&nbsp;</span> per month</button>
+            <button class="donate-button" data-plan-id="plan_H03ID6AxDIfKqv">Donate <span class="span-bold">&nbsp;$5.00&nbsp;</span> per month</button>
+
             <script>
-            (function() {
-              var stripe = Stripe('pk_test_TpLXb3wHeYRT3PLB6CfKa7gY00VEjTOcTy');
+              // Replace with your own publishable key: https://dashboard.stripe.com/test/apikeys
+              var PUBLISHABLE_KEY = "pk_test_TpLXb3wHeYRT3PLB6CfKa7gY00VEjTOcTy";
+              // Replace with the domain you want your users to be redirected back to after payment
+              var DOMAIN = location.href.replace(/[^/]*$/, "");
 
-              var checkoutButton = document.getElementById('checkout-button-sku_H00YCOetObXVYA');
-              checkoutButton.addEventListener('click', function () {
-                // When the customer clicks on the button, redirect
-                // them to Checkout.
-                stripe.redirectToCheckout({
-                  items: [{sku: 'sku_H00YCOetObXVYA', quantity: 1}],
+              var stripe = Stripe(PUBLISHABLE_KEY);
 
-                  // Do not rely on the redirect to the successUrl for fulfilling
-                  // purchases, customers may not always reach the success_url after
-                  // a successful payment.
-                  // Instead use one of the strategies described in
-                  // https://stripe.com/docs/payments/checkout/fulfillment
-                  successUrl: 'https://sleepingaliencreature.com/thanks.html',
-                  cancelUrl: 'https://sleepingaliencreature.com/',
-                })
-                .then(function (result) {
-                  if (result.error) {
-                    // If `redirectToCheckout` fails due to a browser or network
-                    // error, display the localized error message to your customer.
-                    var displayError = document.getElementById('error-message');
-                    displayError.textContent = result.error.message;
-                  }
+              // Handle any errors from Checkout
+              var handleResult = function(result) {
+                if (result.error) {
+                  var displayError = document.getElementById("error-message");
+                  displayError.textContent = result.error.message;
+                }
+              };
+
+              document.querySelectorAll("button").forEach(function(button) {
+                button.addEventListener("click", function(e) {
+                  var skuId = e.target.dataset.skuId;
+                  var planId = e.target.dataset.planId;
+                  var items = skuId
+                    ? [{ sku: skuId, quantity: 1 }]
+                    : [{ plan: planId, quantity: 1 }];
+
+                  // Make the call to Stripe.js to redirect to the checkout page
+                  // with the sku or plan ID.
+                  stripe
+                    .redirectToCheckout({
+                      items: items,
+                      successUrl:
+                        DOMAIN + "success.html?session_id={CHECKOUT_SESSION_ID}",
+                      cancelUrl:
+                        DOMAIN + "canceled.html?session_id={CHECKOUT_SESSION_ID}"
+                    })
+                    .then(handleResult);
                 });
               });
-            })();
             </script>
+
 
           </div>
 

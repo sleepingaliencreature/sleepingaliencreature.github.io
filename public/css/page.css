@@ -9,6 +9,18 @@ body {
   flex-direction: column;
 }
 
+h1 {
+  display: flex;
+  width: 100%;
+  height: 4rem;
+  justify-content: center;
+  align-items: flex-end;
+  padding: .5rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #616161;
+}
+
 #root {
   display: flex;
   width: 100%;
@@ -211,12 +223,42 @@ a:hover {
   min-height: 10rem;
 }
 
-.about, .donate {
+.donate {
   display: flex;
   width: 100%;
-  height: 32rem;
+  padding-bottom: 10rem;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+
+#error-message {
+  display: flex;
+  width: 70%;
+  padding: 1.5rem;
+  align-items: flex-end;
+  justify-content: center;
+  color: #9c27b0;
+  margin: 1rem 0;
+  font-size: 1.5rem;
+}
+
+.donate-button {
+  display: flex;
+  width: 20rem;
+  height: 3rem;
+  justify-content: center;
+  align-items: center;
+  background-color: #4658b9;
+  color: #fff;
+  font-size: 1.25rem;
+  border: none;
+  border-radius: 3px;
+  margin: .75rem;
+}
+
+.span-bold {
+  font-weight: bold;
 }
 
 /* On screens that are 1000px or less */
@@ -242,7 +284,13 @@ a:hover {
   .fb-email, .fb-message, .fb-submit {
     width: 100%;
   }
-
+  .donate-button {
+    font-size: 3rem;
+    width: 80%;
+    height: auto;
+    padding: 1.5rem;
+    margin: 1.25rem;
+  }
 }
 
 /* On screens that are 600px or less */
