@@ -21,14 +21,14 @@ const PlayerItem = (props) => {
 
     return (
         <li className={classNames({"pl-item": true, "active": props.active})}>
-            <img className="pl-icon speaker" src="icons/speaker.svg"/>
-            <img className="pl-icon play" src="icons/play.svg" onClick={props.selectAudio}/>
+            <img alt="" className="pl-icon speaker" src="icons/speaker.svg"/>
+            <img alt="" className="pl-icon play" src="icons/play.svg" onClick={props.selectAudio}/>
             <span className="song-name" onClick={props.selectAudio}>{name}</span>
             <span className="lenght">{parseInt(seconds / 60)}:{parseInt(seconds % 60)}</span>
             <a href={`#${name}`} onClick={e => copyLink(e, name)}>
-                <img className="pl-icon" src="icons/link.svg"/>
+                <img alt="" className="pl-icon" src="icons/link.svg"/>
             </a>
-            <a href={`music/${props.path}`} download><img className="pl-icon" src="icons/download.svg"/></a>
+            <a href={`music/${props.path}`} download><img alt="" className="pl-icon" src="icons/download.svg"/></a>
         </li>
     )
 };
@@ -211,7 +211,7 @@ const Player = (props) => {
     useEffect(() => {
         const audio = audioEl.current.audio;
 
-        if (location.pathname != "/") {
+        if (location.pathname !== "/") {
             history.replace("/");
             const i = AUDIO_FILES.indexOf(location.pathname.slice(1) + ".mp3");
             if (i >= 0) {
@@ -221,7 +221,7 @@ const Player = (props) => {
                 }, 500);
             }
         }
-    }, [location.pathname]);
+    }, [location.pathname, AUDIO_FILES, history]);
 
     const getAnalyser = () => {
         if (analyserRef.current) {
@@ -314,14 +314,14 @@ const Player = (props) => {
 
             renderFrame();
         }
-    }, [audioIndex]);
+    }, []);
 
     const audio = isUndefined(audioIndex) ? undefined : AUDIO_FILES[audioIndex];
 
     return (
         <>
             <div className="visualizer">
-                {isUndefined(window.AudioContext) && <div><img src="wave.gif" /></div>}
+                {isUndefined(window.AudioContext) && <div><img alt="" src="wave.gif" /></div>}
                 {!isUndefined(window.AudioContext) && <div id="chart-container" style={{width: "100%", height: "100%"}}
                                                            ref={canvasEl}></div>}
             </div>
