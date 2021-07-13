@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "https://sleepingaliencreature.com/static/css/main.549382ca.chunk.css",
+    "main.js": "https://sleepingaliencreature.com/static/js/main.9e59fbd4.chunk.js",
+    "main.js.map": "https://sleepingaliencreature.com/static/js/main.9e59fbd4.chunk.js.map",
+    "runtime-main.js": "https://sleepingaliencreature.com/static/js/runtime-main.e21497c6.js",
+    "runtime-main.js.map": "https://sleepingaliencreature.com/static/js/runtime-main.e21497c6.js.map",
+    "static/js/2.e2d8b593.chunk.js": "https://sleepingaliencreature.com/static/js/2.e2d8b593.chunk.js",
+    "static/js/2.e2d8b593.chunk.js.map": "https://sleepingaliencreature.com/static/js/2.e2d8b593.chunk.js.map",
+    "index.html": "https://sleepingaliencreature.com/index.html",
+    "precache-manifest.ef64134301f30853f0d85367d7d3d368.js": "https://sleepingaliencreature.com/precache-manifest.ef64134301f30853f0d85367d7d3d368.js",
+    "service-worker.js": "https://sleepingaliencreature.com/service-worker.js",
+    "static/css/main.549382ca.chunk.css.map": "https://sleepingaliencreature.com/static/css/main.549382ca.chunk.css.map",
+    "static/js/2.e2d8b593.chunk.js.LICENSE.txt": "https://sleepingaliencreature.com/static/js/2.e2d8b593.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.e21497c6.js",
+    "static/js/2.e2d8b593.chunk.js",
+    "static/css/main.549382ca.chunk.css",
+    "static/js/main.9e59fbd4.chunk.js"
+  ]
+}
