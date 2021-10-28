@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="reset.css">
+    <link rel="stylesheet" href="style.css">
+    <title>sleepingaliencreature - about</title>
+    <script>
+        // PLAYLIST ["Track Name", "Track Path"]; IMPORTANT! Last track will be on the top of playlist on page!
+        let tracks = [
+            ["Emotion object", "music/Emotion object.mp3"],
+            ["Exhale", "music/Exhale.mp3"],
+            ["PinkBird", "music/PinkBird.mp3"],
+            ["The bay", "music/The bay.mp3"],
+            ["Whispering", "music/Whispering.mp3"],
+            ["Moonlight swimming", "music/Moonlight swimming.mp3"],
+            ["Used to", "music/Used to.mp3"],
+            ["Stuck voices", "music/Stuck voices.mp3"],
+            ["Petrichor", "music/Petrichor.mp3"],
+            ["Moth", "music/Moth.mp3"],
+        ];
+    </script>
+</head>
+
+<body>
+    <div class="listen">
+        <div class="navigation">
+            <a class="top-logo" href="index.html"><img src="images/sleepingaliencreature.svg" alt="sleepingaliencreature" /></a>
+            <div class="top-links">
+                <a href="index.html">home</a>
+                <a href="message.html">message</a>
+            </div>
+        </div>
+        <div class="title">
+            <h1>my music</h1>
+        </div>
+        <div class="playlist-container">
+            <ul class="playlist" id="playlist"></ul>
+        </div>
+        <div class="footer"><span>&copy; sleepingaliencreature 2020</span></div>
+    </div>
+    <script>
+        for (var i = 0; i < tracks.length; i++) {
+            document.getElementById("playlist").insertAdjacentHTML(
+                'afterbegin',
+                `<li class="player" id="song_${i}">
+                <audio class="audio" src="${tracks[i][1]}" preload="metadata"></audio>
+                <button class="play-button" onclick="play('song_${i}')"><img alt='Play' class='pl-icon play' src='icons/play.svg'></button>
+                <span class="song-name">${tracks[i][0]}</span>
+                <span>
+                    <span class="current"></span>
+                    <span class="lenght"></span>
+                </span>
+            </li>`
+            );
+        }
+        for (const li of document.getElementsByClassName("player")) {
+            li.getElementsByClassName("audio")[0].onloadedmetadata = function () {
+                li.getElementsByClassName("lenght")[0].innerHTML = fancyTimeFormat(li.getElementsByClassName("audio")[0].duration);
+            }
+        };
+
+        window.addEventListener("play", function (evt) {
+            if (window.$_currentlyPlaying && window.$_currentlyPlaying != evt.target) {
+                window.$_currentlyPlaying.pause();
+                window.$_currentlyPlaying.currentTime = 0;
+                window.$_currentlyPlaying.parentNode.classList.remove("active");
+                window.$_currentlyPlaying.parentNode.getElementsByClassName("play-button")[0].innerHTML = "<img alt='' class='pl-icon play' src='icons/play.svg'>";
+                window.$_currentlyPlaying.parentNode.getElementsByClassName("audio")[0].currentTime = 0;
+                window.$_currentlyPlaying.parentNode.getElementsByClassName("current")[0].innerHTML = "";
+            }
+            window.$_currentlyPlaying = evt.target;
+            window.$_currentlyPlaying.parentNode.getElementsByClassName("audio")[0].ontimeupdate = function () {
+                window.$_currentlyPlaying.parentNode.getElementsByClassName("current")[0].innerHTML = "<span>" + (window.$_currentlyPlaying.parentNode.getElementsByClassName("audio")[0].currentTime > 0 ? (fancyTimeFormat(window.$_currentlyPlaying.parentNode.getElementsByClassName("audio")[0].currentTime) + "</span><span>/</span>") : "");
+                if (window.$_currentlyPlaying.currentTime === window.$_currentlyPlaying.duration) {
+                    setTimeout(() => {
+                        window.$_currentlyPlaying.currentTime = 0;
+                        window.$_currentlyPlaying.parentNode.classList.remove("active");
+                        window.$_currentlyPlaying.parentNode.getElementsByClassName("play-button")[0].innerHTML = "<img alt='' class='pl-icon play' src='icons/play.svg'>";
+                        window.$_currentlyPlaying.parentNode.getElementsByClassName("audio")[0].currentTime = 0;
+                        window.$_currentlyPlaying.parentNode.getElementsByClassName("current")[0].innerHTML = "";
+                        if (parseInt(window.$_currentlyPlaying.parentNode.id.split("_").pop(), 10) > 0) {
+                            let newSongNumber = parseInt(window.$_currentlyPlaying.parentNode.id.split("_").pop(), 10) - 1;
+                            let newSongId = "song_" + newSongNumber;
+                            play(newSongId);
+                        }
+                    }, 3500);
+                };
+            }
+        }, true);
+
+        function fancyTimeFormat(duration) {
+            // Hours, minutes and seconds
+            var hrs = ~~(duration / 3600);
+            var mins = ~~((duration % 3600) / 60);
+            var secs = ~~duration % 60;
+
+            // Output like "1:01" or "4:03:59" or "123:03:59"
+            var ret = "";
+
+            if (hrs > 0) {
+                ret += "" + hrs + ":" + (mins < 10 ? "0" : "");
+            }
+            ret += "" + mins + ":" + (secs < 10 ? "0" : "");
+            ret += "" + secs;
+            return ret;
+        }
+
+        function play(song) {
+            let parent = document.getElementById(song);
+            let audio = parent.getElementsByClassName("audio")[0];
+            let playButton = parent.getElementsByClassName("play-button")[0];
+            let songName = parent.getElementsByClassName("song-name")[0];
+            let playSeconds = parent.getElementsByClassName("current")[0];
+
+            if (audio.paused) {
+                audio.play();
+                playButton.innerHTML = "<img alt='' class='pl-icon play' src='icons/speaker.svg'>";
+                parent.classList.add("active");
+            } else {
+                audio.pause();
+                audio.currentTime = 0;
+                playButton.innerHTML = "<img alt='' class='pl-icon play' src='icons/play.svg'>";
+                parent.classList.remove("active");
+                playSeconds.innerHTML = "";
+            }
+        }
+    </script>
+</body>
+
+</html>
