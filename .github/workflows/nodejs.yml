@@ -13,21 +13,12 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: '10.x'
-    - run: npm install
-    - run: npm test
-      env:
-        CI: true
-    - run: npm run build
-    - run: cp CNAME build/
+    - run: cp CNAME public/
 
     - name: GitHub Pages
       uses: crazy-max/ghaction-github-pages@v1.2.5
       with:
         target_branch: master
-        build_dir: build
+        build_dir: public
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
