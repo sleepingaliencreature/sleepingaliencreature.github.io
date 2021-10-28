@@ -63,6 +63,7 @@ h1 {
 .playlist .player button {
     opacity: .75;
     outline: none;
+    cursor: pointer;
 }
 
 .social a:active,
